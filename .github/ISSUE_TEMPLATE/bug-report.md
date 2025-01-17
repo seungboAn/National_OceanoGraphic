@@ -1,8 +1,8 @@
 ---
-name: 버그 리포트
+name: Bug Report
 about: 딥러닝 모델 또는 관련 코드의 버그를 보고하기 위한 템플릿
-title: '[BUG] '
-labels: 'bug'
+title: "[BUG]"
+labels: bug
 assignees: ''
 
 ---
