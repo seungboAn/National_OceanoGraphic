@@ -7,15 +7,6 @@ assignees: ''
 
 ---
 
----
-name: 기능 요청
-about: 이 프로젝트에 대한 아이디어나 새로운 기능을 제안합니다
-title: '[FEATURE] '
-labels: 'enhancement'
-assignees: ''
-
----
-
 ## 요청 기능이 해결할 문제
 현재 겪고 있는 문제나 불편사항에 대해 명확하고 간결하게 설명해 주세요.
 
