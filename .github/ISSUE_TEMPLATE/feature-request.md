@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: Feature Request
 about: 이 프로젝트에 대한 아이디어나 새로운 기능을 제안합니다
 title: "[FEATURE] "
 labels: enhancement
