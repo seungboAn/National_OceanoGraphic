@@ -1,20 +1,41 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+about: 이 프로젝트에 대한 아이디어나 새로운 기능을 제안합니다
+title: "[FEATURE] "
+labels: enhancement
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+---
+name: 기능 요청
+about: 이 프로젝트에 대한 아이디어나 새로운 기능을 제안합니다
+title: '[FEATURE] '
+labels: 'enhancement'
+assignees: ''
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+---
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## 요청 기능이 해결할 문제
+현재 겪고 있는 문제나 불편사항에 대해 명확하고 간결하게 설명해 주세요.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## 제안하는 해결책
+원하는 기능이나 해결 방법에 대해 설명해 주세요.
+
+## 고려한 대안
+고려해 본 다른 해결 방법이나 기능이 있다면 설명해 주세요.
+
+## 딥러닝 관련 세부 사항
+- 관련 모델 아키텍처: [예: CNN, RNN, Transformer 등]
+- 적용 분야: [예: 컴퓨터 비전, 자연어 처리, 강화학습 등]
+- 데이터셋: [예: ImageNet, COCO, MNIST 등]
+- 성능 지표: [예: 정확도, F1 점수, BLEU 점수 등]
+
+## 구현 아이디어
+구현에 대한 아이디어나 pseudo code가 있다면 공유해 주세요.
+
+## 예상되는 이점
+이 기능이 추가됨으로써 얻을 수 있는 이점을 설명해 주세요.
+
+## 추가 정보
+기능 요청과 관련된 추가 정보나 스크린샷이 있다면 첨부해 주세요.
