@@ -1,38 +1,48 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+name: 버그 리포트
+about: 딥러닝 모델 또는 관련 코드의 버그를 보고하기 위한 템플릿
+title: '[BUG] '
+labels: 'bug'
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## 버그 설명
+버그에 대한 명확하고 간결한 설명을 제공해 주세요.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+## 재현 방법
+버그를 재현하기 위한 단계:
+1. 데이터셋 '...' 사용
+2. 모델 구조 '...' 설정
+3. 하이퍼파라미터 '...' 설정
+4. 학습 실행
+5. 에러 발생
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## 예상 동작
+예상했던 정상적인 동작에 대한 명확하고 간결한 설명을 제공해 주세요.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## 실제 동작
+실제로 발생한 동작이나 에러에 대해 설명해 주세요.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+## 스크린샷
+가능하다면, 문제를 설명하는 데 도움이 되는 스크린샷을 추가해 주세요.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+## 환경 정보
+ - OS: [예: Ubuntu 20.04]
+ - Python 버전: [예: 3.8.5]
+ - 프레임워크 및 버전: [예: TensorFlow 2.4.0, PyTorch 1.7.1]
+ - GPU 모델 (해당되는 경우): [예: NVIDIA RTX 3080]
+ - CUDA 버전 (해당되는 경우): [예: CUDA 11.2]
 
-**Additional context**
-Add any other context about the problem here.
+## 사용한 데이터셋
+데이터셋의 이름, 버전, 출처 등을 명시해 주세요.
+
+## 코드 스니펫
+문제와 관련된 코드 부분을 공유해 주세요.
+
+```python
+# 여기에 코드를 붙여넣으세요
+```
+
+## 추가 정보
+문제에 대한 추가적인 맥락이나 정보를 제공해 주세요.
