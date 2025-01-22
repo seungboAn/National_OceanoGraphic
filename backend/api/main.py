@@ -36,7 +36,8 @@ JELLYFISH_SPECIES = {
 }
 
 # Load models
-MODEL_DIR = os.path.join(os.getcwd(), 'models')
+MODEL_DIR = os.path.join(os.path.dirname(os.getcwd()), 'models')
+
 models = {
     ModelOption.fast: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'basemodel_1_kaggle_without_aug.h5')),
     ModelOption.balanced: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'basemodel_2_quality_sort.h5')),
