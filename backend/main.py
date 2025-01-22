@@ -1,11 +1,10 @@
 import os
 import tensorflow as tf
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from enum import Enum
 from pydantic import BaseModel
 from PIL import Image
 import io
-import base64
 import numpy as np
 import time
 from pyngrok import ngrok
@@ -44,20 +43,9 @@ models = {
     ModelOption.accurate: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'basemodel_3_classweight80.h5'))
 }
 
-def preprocess_image(image_data: str, target_size: tuple = (224, 224)) -> np.ndarray:
-    """
-    Preprocess the image data for model prediction.
-    
-    Args:
-    image_data (str): Base64 encoded image data.
-    target_size (tuple): Target size for image resizing.
-    
-    Returns:
-    np.ndarray: Preprocessed image array.
-    """
-    # Decode base64 image
-    decoded_image = base64.b64decode(image_data)
-    image = Image.open(io.BytesIO(decoded_image))
+async def preprocess_image(image_file: UploadFile, target_size: tuple = (224, 224)) -> np.ndarray:
+    contents = await image_file.read()
+    image = Image.open(io.BytesIO(contents))
     
     # Resize image
     image = image.resize(target_size)
@@ -71,12 +59,12 @@ def preprocess_image(image_data: str, target_size: tuple = (224, 224)) -> np.nda
     return image_array
 
 @app.post("/predict", response_model=PredictionResponse)
-async def predict(request: PredictionRequest):
+async def predict(image: UploadFile = File(...), option: ModelOption = ModelOption.balanced):
     # 이미지 전처리
-    preprocessed_image = preprocess_image(request.image)
+    preprocessed_image = await preprocess_image(image)
     
     # 모델 선택 및 예측
-    model = models[request.option]
+    model = models[option]
     
     # 추론 시간 측정 시작
     start_time = time.time()
