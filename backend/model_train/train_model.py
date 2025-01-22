@@ -34,12 +34,12 @@ class ClassMetricsCallback(Callback):
             )
 
         print(f"\nEpoch {epoch + 1} - Class Metrics:")
-        for i, class_name in enumerate(self.class_names):
-            print(f"{class_name}: Precision: {precision[i]:.4f}, Recall: {recall[i]:.4f}, F1: {f1[i]:.4f}")
+       for i, (class_name, p, r, f) in enumerate(zip(self.class_names, precision, recall, f1)):
+            print(f"{class_name}: Precision: {p:.4f}, Recall: {r:.4f}, F1: {f:.4f}")
             wandb.log({
-                f'{class_name}_precision': precision[i],
-                f'{class_name}_recall': recall[i],
-                f'{class_name}_f1': f1[i]
+                f'{class_name}_precision': p,
+                f'{class_name}_recall': r,
+                f'{class_name}_f1': f
             }, commit=False)
         
         wandb.log({}, commit=True)
