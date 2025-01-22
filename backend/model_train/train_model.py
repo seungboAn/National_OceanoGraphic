@@ -11,6 +11,7 @@ import numpy as np
 from tensorflow.keras.callbacks import Callback
 from sklearn.metrics import precision_recall_fscore_support
 import warnings
+from models import create_resnet, MobileNet, GoogLeNet, base_model
 
 class ClassMetricsCallback(Callback):
     def __init__(self, validation_data, class_names):
@@ -44,43 +45,17 @@ class ClassMetricsCallback(Callback):
         
         wandb.log({}, commit=True)
 
-def create_model(model_name, input_shape, num_classes, dropout_rate=0.5):
+def create_model(model_name, input_shape, num_classes):
     if model_name == "base_model":
-        model = Sequential([
-            Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
-            MaxPooling2D((2, 2)),
-            Conv2D(64, (3, 3), activation='relu'),
-            MaxPooling2D((2, 2)),
-            Conv2D(128, (3, 3), activation='relu'),
-            MaxPooling2D((2, 2)),
-            Conv2D(256, (3, 3), activation='relu'),
-            MaxPooling2D((2, 2)),
-            Flatten(),
-            Dense(128, activation='relu'),
-            Dense(num_classes, activation='softmax')
-        ])
-    elif model_name == "deeper_cnn":
-        model = Sequential([
-            Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
-            Conv2D(32, (3, 3), activation='relu'),
-            MaxPooling2D((2, 2)),
-            Conv2D(64, (3, 3), activation='relu'),
-            Conv2D(64, (3, 3), activation='relu'),
-            MaxPooling2D((2, 2)),
-            Conv2D(128, (3, 3), activation='relu'),
-            Conv2D(128, (3, 3), activation='relu'),
-            MaxPooling2D((2, 2)),
-            Flatten(),
-            Dense(256, activation='relu'),
-            Dropout(dropout_rate),
-            Dense(128, activation='relu'),
-            Dropout(dropout_rate),
-            Dense(num_classes, activation='softmax')
-        ])
+        return base_model(input_shape, num_classes)
+    elif model_name == "resnet":
+        return create_resnet(input_shape, num_classes)
+    elif model_name == "mobilenet":
+        return MobileNet(input_shape, num_classes)
+    elif model_name == "googlenet":
+        return GoogLeNet(input_shape, num_classes)
     else:
         raise ValueError(f"Unknown model name: {model_name}")
-    
-    return model
 
 def setup_data_generators(dataset_path, image_size, batch_size, valid_classes, augmentation=False):
     if augmentation:
