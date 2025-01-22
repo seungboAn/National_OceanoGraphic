@@ -8,6 +8,7 @@ import io
 import base64
 import numpy as np
 import time
+from pyngrok import ngrok
 
 app = FastAPI()
 
@@ -100,5 +101,9 @@ async def predict(request: PredictionRequest):
     )
 
 if __name__ == "__main__":
+    # ngrok을 사용하여 터널 생성
+    ngrok_tunnel = ngrok.connect(8000)
+    print('Public URL:', ngrok_tunnel.public_url)
+
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
