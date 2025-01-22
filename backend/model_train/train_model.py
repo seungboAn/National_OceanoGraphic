@@ -10,6 +10,7 @@ from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 import numpy as np
 from tensorflow.keras.callbacks import Callback
 from sklearn.metrics import precision_recall_fscore_support
+import warnings
 
 class ClassMetricsCallback(Callback):
     def __init__(self, validation_data, class_names):
@@ -23,7 +24,14 @@ class ClassMetricsCallback(Callback):
         y_pred_classes = np.argmax(y_pred, axis=1)
         y_true_classes = np.argmax(y_true, axis=1)
 
-        precision, recall, f1, _ = precision_recall_fscore_support(y_true_classes, y_pred_classes, average=None)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            precision, recall, f1, _ = precision_recall_fscore_support(
+                y_true_classes, 
+                y_pred_classes, 
+                average=None, 
+                zero_division=0
+            )
 
         for i, class_name in enumerate(self.class_names):
             wandb.log({
