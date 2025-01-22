@@ -17,7 +17,6 @@ class ClassMetricsCallback(Callback):
         super().__init__()
         self.validation_data = validation_data
         self.class_names = class_names
-        self.step = 0
 
     def on_epoch_end(self, epoch, logs=None):
         x_val, y_true = next(self.validation_data)
@@ -41,9 +40,9 @@ class ClassMetricsCallback(Callback):
                 f'{class_name}_precision': precision[i],
                 f'{class_name}_recall': recall[i],
                 f'{class_name}_f1': f1[i]
-            }, step=self.step)
+            }, commit=False)
         
-        self.step += 1
+        wandb.log({}, commit=True)
 
 def create_model(model_name, input_shape, num_classes, dropout_rate=0.5):
     if model_name == "base_model":
