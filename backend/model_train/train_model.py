@@ -111,8 +111,8 @@ def train_model(config, dataset_path):
     model = create_model(
         wandb.config.model_name,
         input_shape=(*wandb.config.image_size, 3),
-        num_classes=wandb.config.num_classes,
-        dropout_rate=wandb.config.dropout_rate
+        num_classes=wandb.config.num_classes
+        # dropout_rate=wandb.config.dropout_rate
     )
 
     optimizer_class = getattr(tf.keras.optimizers, wandb.config.optimizer)
