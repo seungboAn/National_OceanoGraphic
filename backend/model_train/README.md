@@ -24,7 +24,7 @@ To run this script in Google Colab, follow these steps:
 
 2. Change to the repository directory:
    ```
-   %cd National_OceanoGraphic
+   %cd National_OceanoGraphic/model_train
    ```
 
 3. Install required packages:
@@ -34,17 +34,5 @@ To run this script in Google Colab, follow these steps:
 
 4. Run the training script:
    ```
-   !python train_model.py --dataset 4_augmented --model_name deeper_cnn --epochs 50 --batch_size 64 --learning_rate 0.0001 --optimizer RMSprop --dropout_rate 0.3 --augmentation
+   !python train_model.py --dataset 1_kaggle --model_name base_model
    ```
-
-This command will:
-- Use the '4_augmented' dataset
-- Train a deeper CNN model
-- Run for 50 epochs
-- Use a batch size of 64
-- Set the learning rate to 0.0001
-- Use the RMSprop optimizer
-- Set the dropout rate to 0.3
-- Enable data augmentation
-
-Adjust these parameters as needed for your specific use case.

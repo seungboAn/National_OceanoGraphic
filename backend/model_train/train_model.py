@@ -7,9 +7,33 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropou
 from tensorflow.keras.optimizers import Adam, RMSprop, SGD
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
+import numpy as np
+from tensorflow.keras.callbacks import Callback
+from sklearn.metrics import precision_recall_fscore_support
+
+class ClassMetricsCallback(Callback):
+    def __init__(self, validation_data, class_names):
+        super().__init__()
+        self.validation_data = validation_data
+        self.class_names = class_names
+
+    def on_epoch_end(self, epoch, logs=None):
+        x_val, y_true = self.validation_data.next()
+        y_pred = self.model.predict(x_val)
+        y_pred_classes = np.argmax(y_pred, axis=1)
+        y_true_classes = np.argmax(y_true, axis=1)
+
+        precision, recall, f1, _ = precision_recall_fscore_support(y_true_classes, y_pred_classes, average=None)
+
+        for i, class_name in enumerate(self.class_names):
+            wandb.log({
+                f'{class_name}_precision': precision[i],
+                f'{class_name}_recall': recall[i],
+                f'{class_name}_f1': f1[i]
+            }, step=epoch)
 
 def create_model(model_name, input_shape, num_classes, dropout_rate=0.5):
-    if model_name == "simple_cnn":
+    if model_name == "base_model":
         model = Sequential([
             Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
             MaxPooling2D((2, 2)),
@@ -21,7 +45,6 @@ def create_model(model_name, input_shape, num_classes, dropout_rate=0.5):
             MaxPooling2D((2, 2)),
             Flatten(),
             Dense(128, activation='relu'),
-            Dropout(dropout_rate),
             Dense(num_classes, activation='softmax')
         ])
     elif model_name == "deeper_cnn":
@@ -114,7 +137,8 @@ def train_model(config, dataset_path):
 
     callbacks = [
         WandbMetricsLogger(log_freq="batch"),
-        WandbModelCheckpoint("model_checkpoint.keras")
+        WandbModelCheckpoint("model_checkpoint.keras"),
+        ClassMetricsCallback(validation_generator, valid_classes)
     ]
 
     model.fit(
@@ -139,7 +163,7 @@ def main():
     parser.add_argument('--batch_size', type=int, default=32, help='Batch size')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--optimizer', type=str, default='Adam', help='Optimizer to use')
-    parser.add_argument('--dropout_rate', type=float, default=0.5, help='Dropout rate')
+    parser.add_argument('--dropout_rate', type=float, default=0, help='Dropout rate')
     parser.add_argument('--augmentation', action='store_true', help='Use data augmentation')
     args = parser.parse_args()
 
