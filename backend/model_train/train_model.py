@@ -34,7 +34,7 @@ class ClassMetricsCallback(Callback):
             )
 
         print(f"\nEpoch {epoch + 1} - Class Metrics:")
-       for i, (class_name, p, r, f) in enumerate(zip(self.class_names, precision, recall, f1)):
+        for i, (class_name, p, r, f) in enumerate(zip(self.class_names, precision, recall, f1)):
             print(f"{class_name}: Precision: {p:.4f}, Recall: {r:.4f}, F1: {f:.4f}")
             wandb.log({
                 f'{class_name}_precision': p,
