@@ -18,7 +18,7 @@ class ClassMetricsCallback(Callback):
         self.class_names = class_names
 
     def on_epoch_end(self, epoch, logs=None):
-        x_val, y_true = self.validation_data.next()
+        x_val, y_true = next(self.validation_data)
         y_pred = self.model.predict(x_val)
         y_pred_classes = np.argmax(y_pred, axis=1)
         y_true_classes = np.argmax(y_true, axis=1)
