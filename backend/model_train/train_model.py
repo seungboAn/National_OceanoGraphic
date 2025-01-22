@@ -33,12 +33,16 @@ class ClassMetricsCallback(Callback):
                 zero_division=0
             )
 
+        print(f"\nEpoch {epoch + 1} - Class Metrics:")
         for i, class_name in enumerate(self.class_names):
+            print(f"{class_name}: Precision: {precision[i]:.4f}, Recall: {recall[i]:.4f}, F1: {f1[i]:.4f}")
             wandb.log({
                 f'{class_name}_precision': precision[i],
                 f'{class_name}_recall': recall[i],
                 f'{class_name}_f1': f1[i]
-            }, step=epoch)
+            }, step=epoch, commit=False)
+        
+        wandb.log({}, commit=True)
 
 def create_model(model_name, input_shape, num_classes, dropout_rate=0.5):
     if model_name == "base_model":
