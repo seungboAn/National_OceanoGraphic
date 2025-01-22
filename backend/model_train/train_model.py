@@ -109,7 +109,7 @@ def setup_data_generators(dataset_path, image_size, batch_size, valid_classes, a
     return train_generator, validation_generator
 
 def train_model(config, dataset_path):
-    wandb.init(project="National Oceanographic AI", config=config)
+    wandb.init(project="National Oceanographic AI", name=f"{config['model_name']}_{config['dataset']}", config=config)
 
     valid_classes = [d for d in os.listdir(dataset_path) if os.path.isdir(os.path.join(dataset_path, d)) and d != '.ipynb_checkpoints']
 
