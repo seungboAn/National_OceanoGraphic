@@ -1,6 +1,6 @@
 import os
 import tensorflow as tf
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from enum import Enum
 from pydantic import BaseModel
 from PIL import Image
@@ -9,6 +9,11 @@ import numpy as np
 import time
 from pyngrok import ngrok
 from fastapi.middleware.cors import CORSMiddleware
+import logging
+
+# 로깅 설정
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 app.add_middleware(
@@ -68,7 +73,10 @@ async def preprocess_image(image_file: UploadFile, target_size: tuple = (224, 22
     return image_array
 
 @app.post("/predict", response_model=PredictionResponse)
-async def predict(image: UploadFile = File(...), option: ModelOption = ModelOption.balanced):
+async def predict(image: UploadFile = File(...), option: ModelOption = Form(ModelOption.balanced)):
+    # 사용된 옵션 로깅
+    logger.info(f"Prediction requested with option: {option}")
+    
     # 이미지 전처리
     preprocessed_image = await preprocess_image(image)
     
@@ -90,6 +98,9 @@ async def predict(image: UploadFile = File(...), option: ModelOption = ModelOpti
     
     # 해파리 종류 매핑 (예측된 클래스 인덱스를 실제 종 이름으로 변환)
     species = JELLYFISH_SPECIES.get(predicted_class, "Unknown")
+
+    # 결과 로깅
+    logger.info(f"Prediction result: species={species}, confidence={confidence:.4f}, inference_time={inference_time:.4f}")
     
     return PredictionResponse(
         species=species,
