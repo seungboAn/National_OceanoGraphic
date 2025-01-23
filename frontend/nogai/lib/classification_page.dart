@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'json_map/photo.dart';
 
-class ClassificationPage extends StatelessWidget {
+class ClassificationPage extends StatefulWidget {
   final Photo photo;
   final List<Photo> photos;
 
@@ -10,13 +12,54 @@ class ClassificationPage extends StatelessWidget {
       {super.key, required this.photo, required this.photos});
 
   @override
+  _ClassificationPageState createState() => _ClassificationPageState();
+}
+
+class _ClassificationPageState extends State<ClassificationPage> {
+  String species = '';
+  double confidence = 0.0;
+  double inferenceTime = 0.0;
+  bool isLoading = false;
+
+  Future<void> sendImageToBackend(File imageFile, String modelOption,
+      Function(String, double, double) onResult) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    print('Sending image to backend with model option: $modelOption');
+
+    final request = http.MultipartRequest(
+        'POST', Uri.parse('http://localhost:8000/predict'));
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile.path));
+    request.fields['option'] = modelOption;
+
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final result = jsonDecode(responseData);
+      print('Received response: $result');
+      onResult(
+          result['species'], result['confidence'], result['inference_time']);
+    } else {
+      print('Error: ${response.reasonPhrase}');
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView.builder(
-        itemCount: photos.length,
-        controller: PageController(initialPage: photos.indexOf(photo)),
+        itemCount: widget.photos.length,
+        controller:
+            PageController(initialPage: widget.photos.indexOf(widget.photo)),
         itemBuilder: (context, index) {
-          final currentPhoto = photos[index];
+          final currentPhoto = widget.photos[index];
           return Column(
             children: [
               Expanded(
@@ -30,8 +73,10 @@ class ClassificationPage extends StatelessWidget {
                         return const Center(child: Text('Error loading image'));
                       },
                     ),
-
-                    // 모델 선택 버튼
+                    if (isLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     Positioned(
                       bottom: 20,
                       left: 20,
@@ -45,7 +90,14 @@ class ClassificationPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // Classification 로직 추가
+                          sendImageToBackend(File(currentPhoto.url), 'fast',
+                              (s, c, i) {
+                            setState(() {
+                              species = s;
+                              confidence = c;
+                              inferenceTime = i;
+                            });
+                          });
                         },
                         child: Text(
                           '   Fast Model   ',
@@ -70,7 +122,14 @@ class ClassificationPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // Classification 로직 추가
+                          sendImageToBackend(File(currentPhoto.url), 'balanced',
+                              (s, c, i) {
+                            setState(() {
+                              species = s;
+                              confidence = c;
+                              inferenceTime = i;
+                            });
+                          });
                         },
                         child: Text(
                           'Balanced Model',
@@ -95,7 +154,14 @@ class ClassificationPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // Classification 로직 추가
+                          sendImageToBackend(File(currentPhoto.url), 'accurate',
+                              (s, c, i) {
+                            setState(() {
+                              species = s;
+                              confidence = c;
+                              inferenceTime = i;
+                            });
+                          });
                         },
                         child: Text(
                           'Accurate Model',
@@ -113,7 +179,7 @@ class ClassificationPage extends StatelessWidget {
 
               // Backend Response Print
               SizedBox(
-                height: 200, // Fixed height for the response section
+                height: 200,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -145,7 +211,7 @@ class ClassificationPage extends StatelessWidget {
                                   text: '* Species : ',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                // TextSpan(text: '${species}'),
+                                TextSpan(text: species),
                               ],
                             ),
                             style: TextStyle(fontSize: 14),
@@ -157,7 +223,7 @@ class ClassificationPage extends StatelessWidget {
                                   text: '* Confidence : ',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                // TextSpan(text: confidence),
+                                TextSpan(text: '$confidence'),
                               ],
                             ),
                             style: TextStyle(fontSize: 14),
@@ -169,7 +235,7 @@ class ClassificationPage extends StatelessWidget {
                                   text: '* Inference Time : ',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                // TextSpan(text: inferenceTime),
+                                TextSpan(text: '$inferenceTime'),
                               ],
                             ),
                             style: TextStyle(fontSize: 14),

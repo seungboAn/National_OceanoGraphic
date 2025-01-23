@@ -96,7 +96,7 @@ class _AIEditPageState extends State<AIEditPage> {
               color: Color.fromARGB(255, 243, 111, 111),
             ),
             onPressed: () {
-              _generateAIResult(Prompts.foodPrompt, showPrompt: false);
+              _generateAIResult(Prompts.jellyPrompt, showPrompt: false);
             },
           ),
         ],

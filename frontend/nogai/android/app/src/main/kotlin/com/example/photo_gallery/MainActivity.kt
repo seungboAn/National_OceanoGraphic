@@ -1,4 +1,4 @@
-package com.example.photo_gallery
+package com.example.nogai
 
 import io.flutter.embedding.android.FlutterActivity
 
