@@ -92,6 +92,9 @@ async def predict(image: UploadFile = File(...), option: ModelOption = Form(Mode
     # 추론 시간 측정 종료
     inference_time = time.time() - start_time
     
+    # prediction 리스트 로깅
+    logger.info(f"Raw prediction: {prediction[0].tolist()}")
+    
     # 예측 결과 해석
     predicted_class = np.argmax(prediction[0])
     confidence = float(prediction[0][predicted_class])
