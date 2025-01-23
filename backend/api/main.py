@@ -47,9 +47,9 @@ JELLYFISH_SPECIES = {
 MODEL_DIR = os.path.join(os.path.dirname(os.getcwd()), 'models')
 
 models = {
-    ModelOption.fast: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'basemodel_1_kaggle_without_aug.h5')),
-    ModelOption.balanced: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'basemodel_2_quality_sort.h5')),
-    ModelOption.accurate: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'basemodel_3_classweight80.h5'))
+    ModelOption.fast: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'mobilenet_4_augmented.h5')),
+    ModelOption.balanced: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'base_model_4_augmented.h5')),
+    ModelOption.accurate: tf.keras.models.load_model(os.path.join(MODEL_DIR, 'jellyfish_resnet_model.h5'))
 }
 
 async def preprocess_image(image_file: UploadFile, target_size: tuple = (224, 224)) -> np.ndarray:

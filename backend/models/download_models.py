@@ -10,10 +10,8 @@ run = wandb.init(project="National Oceanographic AI", job_type="model_download")
 
 # List of model artifacts to download
 model_artifacts = [
-    'james-an/National Oceanographic AI/basemodel_4_augmented:v0',
-    'james-an/National Oceanographic AI/basemodel_1_kaggle_without_aug:v0',
-    'james-an/National Oceanographic AI/basemodel_3_classweight80:v1',
-    'james-an/National Oceanographic AI/basemodel_2_quality_sort:v0'
+    'james-an/National Oceanographic AI/base_model_4_augmented:v0',
+    'james-an/National Oceanographic AI/mobilenet_4_augmented:v1'
 ]
 
 # Download and store artifacts
