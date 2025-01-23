@@ -40,12 +40,12 @@ class PredictionResponse(BaseModel):
 
 # 해파리 종류 매핑
 JELLYFISH_SPECIES = {
-    0: "Moon_jellyfish",
-    1: "barrel_jellyfish",
-    2: "blue_jellyfish",
-    3: "compass_jellyfish",
-    4: "lions_mane_jellyfish",
-    5: "mauve_stinger_jellyfish"
+    0: "barrel_jellyfish_resized",
+    1: "blue_jellyfish_resized",
+    2: "compass_jellyfish_resized",
+    3: "lions_mane_resized",
+    4: "mauve_stinger_jellyfish_resized",
+    5: "moon_jellyfish_resized"
 }
 
 # Load models

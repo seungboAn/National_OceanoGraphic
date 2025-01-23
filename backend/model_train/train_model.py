@@ -99,6 +99,7 @@ def train_model(config, dataset_path):
     wandb.init(project="National Oceanographic AI", name=f"{config['model_name']}_{config['dataset']}", config=config)
 
     valid_classes = [d for d in os.listdir(dataset_path) if os.path.isdir(os.path.join(dataset_path, d)) and d != '.ipynb_checkpoints']
+    # valid_classes = ['moon', 'barrel', 'blue', 'compass', 'lions_mane', 'mauve_stinger']
 
     train_generator, validation_generator = setup_data_generators(
         dataset_path, 
