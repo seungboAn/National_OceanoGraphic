@@ -42,7 +42,7 @@ class _AIEditPageState extends State<AIEditPage> {
       return;
     }
 
-    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
+    final model = GenerativeModel(model: 'gemini-1.5-pro', apiKey: apiKey);
 
     try {
       final imagePart = await fileToPart('image/jpeg', widget.imageFile);

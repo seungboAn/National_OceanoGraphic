@@ -29,8 +29,8 @@ class _ClassificationPageState extends State<ClassificationPage> {
 
     print('Sending image to backend with model option: $modelOption');
 
-    final request = http.MultipartRequest(
-        'POST', Uri.parse('http://localhost:8000/predict'));
+    final request = http.MultipartRequest('POST',
+        Uri.parse('https://a645-121-150-54-218.ngrok-free.app/predict'));
     request.files
         .add(await http.MultipartFile.fromPath('image', imageFile.path));
     request.fields['option'] = modelOption;
@@ -199,7 +199,6 @@ class _ClassificationPageState extends State<ClassificationPage> {
                                   text: 'Model Responses',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                TextSpan(text: '\n'),
                               ],
                             ),
                             style: TextStyle(fontSize: 14),
@@ -235,7 +234,9 @@ class _ClassificationPageState extends State<ClassificationPage> {
                                   text: '* Inference Time : ',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                TextSpan(text: '$inferenceTime'),
+                                TextSpan(
+                                    text:
+                                        '${inferenceTime.toStringAsFixed(4)} s'),
                               ],
                             ),
                             style: TextStyle(fontSize: 14),
